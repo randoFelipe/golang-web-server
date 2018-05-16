@@ -58,7 +58,7 @@ make_task_def(){
 }
 
 push_ecr_image(){
-	eval $(aws ecr get-login --region us-east-1 --no-include-email)
+	eval $(aws ecr get-login --region us-east-1)
 	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/golang-webserver:$CIRCLE_SHA1
 }
 
