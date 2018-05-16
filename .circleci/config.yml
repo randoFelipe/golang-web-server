@@ -1,6 +1,7 @@
 version: 2
 jobs:
-  build: /go/src/github.com/randoFelipe/golang-web-server
+  build: 
+    working_directory: /go/src/github.com/randoFelipe/golang-web-server
     docker:
       - image: circleci/golang:1.8
 
