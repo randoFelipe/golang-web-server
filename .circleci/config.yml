@@ -4,5 +4,8 @@ jobs:
     working_directory: /go/src/github.com/randoFelipe/golang-web-server
     docker:
       - image: circleci/golang:1.8
+    steps:
+      - checkout
+      - run: curl http://localhost:8000
 
 
