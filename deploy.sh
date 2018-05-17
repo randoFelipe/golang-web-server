@@ -2,7 +2,7 @@
 
 # more bash-friendly output for jq
 JQ="jq --raw-output --exit-status"
-#CLUSTER="dev"
+CLUSTER=$1
 #SERVICE="golang-webserver"
 
 configure_aws_cli(){

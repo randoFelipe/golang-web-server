@@ -14,7 +14,5 @@ test:
 deployment:
   prod:
     branch: master
-    environment:
-      CLUSTER: dev
     commands:
-      - ./deploy.sh
+      - ./deploy.sh dev
