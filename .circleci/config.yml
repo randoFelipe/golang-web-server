@@ -9,11 +9,6 @@ jobs:
         name: Build Container and send to ECR
         command: docker build -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/golang-webserver:$CIRCLE_SHA1 .
 
-  test:
-    machine:
-      image: circleci/classic:201708-01
-    steps:
-    - checkout
     - run:
         name: Run container and curl it
         command: |
