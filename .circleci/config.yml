@@ -17,7 +17,7 @@ jobs:
 
   deploy:
     machine:
-      image: circleci/classic:201708-01
+      enabled: true
     steps:
     - checkout
     - run:
