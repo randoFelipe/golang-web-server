@@ -3,11 +3,23 @@ jobs:
   build:
     machine:
       image: circleci/classic:201708-01
+      
     steps:
     - checkout
     - run:
+        name: Install dependencies
+        command: |
+          sudo apt-get update
+          sudo apt-get install python-pip
+          sudo pip install ecs-deploy
+        
+    - run:
         name: Build Container and send to ECR
-        command: docker build -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/golang-webserver:$CIRCLE_SHA1 .
+        command: |
+          $(aws ecr get-login --no-include-email --region us-east-1)
+          docker build -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/golang-webserver:$CIRCLE_SHA1 .
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/$REPONAME:$CIRCLE_SHA1
+          
 
     - run:
         name: Run container and curl it
@@ -16,7 +28,7 @@ jobs:
           curl --retry 10 --retry-delay 5 localhost:8080
 
     - deploy:
-        command: ./deploy.sh dev
+        command: ecs deploy $CLUSTER $SERVICE
           
 
 
