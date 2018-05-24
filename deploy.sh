@@ -60,13 +60,13 @@ make_task_def(){
 }
 
 push_ecr_image(){
-	eval $(aws ecr get-login --region us-east-1)
+	eval $(aws ecr get-login --region us-east-1 --no-include-email)
 	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/$REPONAME:$CIRCLE_SHA1
 }
 
 register_definition() {
 
-    if revision=$(aws ecs register-task-definition --network-mode "awsvpc" --requires-compatibilities "FARGATE"  --container-definitions "$task_def" --family $family | $JQ '.taskDefinition.taskDefinitionArn'); then
+    if revision=$(aws ecs register-task-definition --container-definitions "$task_def" --family $family | $JQ '.taskDefinition.taskDefinitionArn'); then
         echo "Revision: $revision"
     else
         echo "Failed to register task definition"
