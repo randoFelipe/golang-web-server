@@ -28,7 +28,7 @@ jobs:
           curl --retry 10 --retry-delay 5 localhost:8080
 
     - deploy:
-        command: ecs deploy $CLUSTER $SERVICE --region us-east-1 --image golang $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/golang-webserver:$CIRCLE_SHA1
+        command: ecs deploy $CLUSTER $SERVICE --timeout 600 --region us-east-1 --image golang $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/golang-webserver:$CIRCLE_SHA1
           
 
 
