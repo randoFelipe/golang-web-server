@@ -41,8 +41,7 @@ deploy_cluster() {
 }
 
 make_task_def(){
-	task_template='"networkMode": "awsvpc", 
-	"containerDefinitions":[
+	task_template='[
 		{
 			"name": "golang",
 			"image": "%s.dkr.ecr.us-east-1.amazonaws.com/golang-webserver:%s",
@@ -55,10 +54,7 @@ make_task_def(){
 				}
 			]
 		}
-	],
-	requiresCompatibilities": [
-        "FARGATE"
-    ]'
+	]'
 	
 	task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $CIRCLE_SHA1)
 }
@@ -70,7 +66,7 @@ push_ecr_image(){
 
 register_definition() {
 
-    if revision=$(aws ecs register-task-definition --container-definitions "$task_def" --family $family | $JQ '.taskDefinition.taskDefinitionArn'); then
+    if revision=$(aws ecs register-task-definition --network-mode "awsvpc" --requires-compatibilities "FARGATE"  --container-definitions "$task_def" --family $family | $JQ '.taskDefinition.taskDefinitionArn'); then
         echo "Revision: $revision"
     else
         echo "Failed to register task definition"
