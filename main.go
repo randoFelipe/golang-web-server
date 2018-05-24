@@ -12,7 +12,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 }
 
 func test_service_discovery(w http.ResponseWriter, r *http.Request) {
-	resp, err := http.Get("http://golang-webserver.local")
+	resp, err := http.Get("http://google.com")
 	if err != nil{
 		fmt.Println(err)
 		os.Exit(1)
